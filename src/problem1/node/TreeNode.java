@@ -41,7 +41,6 @@ public class TreeNode {
         this.right = right;
     }
 
-    public int getdata() {
-    }
+
 }
 
