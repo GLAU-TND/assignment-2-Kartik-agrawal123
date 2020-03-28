@@ -1,71 +1,161 @@
-/*
- *  Created by IntelliJ IDEA.
- *  User: Vaibhav
- *  Date: 23-Mar-20
- *  Time: 7:11 PM
- */
 package problem4.myqueue;
-// to create queue to store pre - order successor
-import org.w3c.dom.Node;
+
 import problem1.node.TreeNode;
 
 public class MyQueue {
-    class Node{
-        int data;
-        Node next;
+    private Node front, end, tmp;
+    private int size;
 
-        public void setData(int data) {
-            this.data = data;
-        }
-
-        public void setNext(Node next) {
-            this.next = next;
-        }
-
-        public int getData() {
-            return data;
-        }
-
-        public Node getNext() {
-            return next;
-        }
-    }
-    Node front;
-    Node rear;
-
-    public MyQueue(){
+    public MyQueue() {
         front = null;
-        rear = null;
+        end = null;
+        tmp = null;
+        size = 0;
+
     }
 
-    public void enqueue(int data){
-        Node ns = new Node();
-        ns.setData(data);
-        if(front==null){
-            front = ns;
-            rear = ns;
+    public int getSize(MyQueue queue) {
+        queue.tmp = queue.front;
+        while (queue.tmp != null) {
+            ++size;
+            queue.tmp = queue.tmp.getNext();
         }
-        else{
-            rear.setNext(ns);
-            rear = ns;
-        }
+        queue.tmp = queue.front;
+        return size;
+
     }
 
-    public void preSuccessor(TreeNode root){
-        if(root == null) {
-        }
-        else{
-            enqueue(root.getdata());
-            preSuccessor(root.getLeft());
-            preSuccessor(root.getRight());
-        }
+    public void setSize(int size) {
+
+        this.size = size;
+
     }
 
-    public void getPreSucc(){
-        Node temp = front.getNext();
-        while(temp!=null){
-            System.out.print(temp.getData()+"\t");
-            temp = temp.getNext();
-        }
+    public Node getFront() {
+
+        return front;
+
     }
+
+
+    public void setFront(Node front) {
+
+        this.front = front;
+
+    }
+
+
+    public Node getEnd() {
+
+        return end;
+
+    }
+
+
+    public void setEnd(Node end) {
+
+        this.end = end;
+
+    }
+
+
+    public Node getTmp() {
+
+        return tmp;
+
+    }
+
+
+    public void setTmp(Node tmp) {
+
+        this.tmp = tmp;
+
+    }
+
+    public void queuePrint(MyQueue queue) {
+
+        while (queue.tmp != null) {
+
+
+            System.out.print(queue.tmp.getNode().getData() + ",");
+
+            queue.tmp = queue.tmp.getNext();
+
+        }
+
+        System.out.println("\b");
+
+        queue.tmp = queue.front;
+
+    }
+
+    public void enqueue(Node node) {
+
+
+        if (front == null) {
+
+            tmp = front = end = node;
+
+        } else {
+
+            while (tmp.getNext() != null) {
+
+                tmp = tmp.getNext();
+
+            }
+
+            end = node;
+
+            tmp.setNext(node);
+
+            tmp = front;
+
+        }
+
+    }
+
+    public void preOrder(TreeNode node) {
+
+        if (node == null) {
+
+            return;
+
+        }
+
+
+        enqueue(new Node(node));
+
+        preOrder(node.getLeft());
+
+        preOrder(node.getRight());
+
+    }
+
+    public void printSuccessor(int data) {
+
+
+        tmp = front;
+
+        while (tmp.getNode().getData() != data && tmp != null) {
+
+            tmp = tmp.getNext();
+
+        }
+
+        try {
+
+            assert tmp != null;
+
+            System.out.println(tmp.getNext().getNode().getData());
+
+        } catch (NullPointerException ignore) {
+
+            System.out.println("No preorder Successor found");
+
+        }
+
+
+    }
+
+
 }
